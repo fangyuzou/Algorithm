@@ -1,2 +1,5 @@
 # Algorithm
 A Java implementation of Weighted Quick Union with Path Compression (WQUPC).
+
+Quick Union can be used to find the number of components of a graph, or to determine whether any pair of nodes are connected. 
+It is a very efficient algorithm. 
