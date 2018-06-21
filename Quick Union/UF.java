@@ -1,7 +1,7 @@
 public class UF {
-    private int[] id;
-    private int[] sz;
-    private int count;
+    private int[] id;       //the nodes
+    private int[] sz;       //size of the current component
+    private int count;      //number of components
 
     public UF(int N) {
         count = N;
@@ -25,7 +25,7 @@ public class UF {
         int i = root(p);
         int j = root(q);
         if (i == j) return;
-        if (sz[i] < sz[j]) {      //adding the smaller tree to the larger tree
+        if (sz[i] < sz[j]) {      //adding the smaller component to the larger component
             id[i] = j; sz[j] += sz[i]; count--;
         }
         else {
