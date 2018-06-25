@@ -1,3 +1,5 @@
+/** A java implementation of the weighted quick union algorithm with path compression
+ */
 public class UF {
     private int[] id;       //the nodes
     private int[] sz;       //size of the current component
