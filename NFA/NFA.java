@@ -1,6 +1,6 @@
 
 /** A Java implementation of the Nondeterministic Finite Automaton */
-
+a
 import java.util.Stack;
 import java.util.Set;
 import java.util.HashSet;
