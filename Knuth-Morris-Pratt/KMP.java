@@ -19,9 +19,11 @@ public class KMP {
 
 	public int search(String txt) {
 		if (txt == null) throw new IllegalArgumentException("Text is NULL!");
-		for (int i = 0; i < txt.length(); i++) 
-			if (dfa[txt.charAt(i)][M-1] == M) return i - M + 1;
-		return txt.length();
+		int i, j;
+		for (i = 0, j = 0; i < txt.length() && j < M; i++) 
+			j = dfa[txt.charAt(i)][j];
+		if (j == M) return i - M;	// match (hit the end of pattern)
+		return txt.length();		// dismatch (hit the end of text)
 	}
 
 	public static void main(String[] args) {
