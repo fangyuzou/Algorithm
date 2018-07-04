@@ -3,7 +3,11 @@
   * the wikipedia [Shunting Yard Algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm).
   *
   */
-  
+
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
+
 public class Calculator {
     private final boolean LEFT = true;
     private final boolean RIGHT = false;
@@ -13,12 +17,12 @@ public class Calculator {
         if (infix == null || infix.isEmpty())  return postfix;
         
         Stack<String> ops = new Stack<>();
-        int i = 0, j = 0;
+        int j = 0;
         while (j < infix.length()) {
             char token = infix.charAt(j);
             if (isOperator(token)) {
-                while (!ops.isEmpty() && (precedence(token) < precedence(ops.peek()) || 
-                            precedence(token) == precedence(ops.peek()) && associativity(token) == LEFT)
+                while (!ops.isEmpty() && ops.peek() != '(' && (precedence(token) < precedence(ops.peek()) || 
+                            precedence(token) == precedence(ops.peek()) && associativity(token) == LEFT))
                      postfix.add(String.valueOf(ops.pop()));
                 ops.push(token);
             }
@@ -30,15 +34,13 @@ public class Calculator {
             }
             else if (Character.isDigit(token)) {
                 StringBuilder operand = new StringBuilder();
-                int k = j+1;
-                while (k < infix.length() && !isOperator(infix.charAt(k)) && infix.charAt(k) != '(' 
-                            && infix.charAt(k) != ')') {
-                    if (Character.isDigit(infix.charAt(k)))  operand.append(infix.charAt(k));
-                    k++;
+                while (j < infix.length() && !isOperator(infix.charAt(j)) && infix.charAt(j) != '(' 
+                            && infix.charAt(j) != ')') {
+                    if (Character.isDigit(infix.charAt(j)))  operand.append(infix.charAt(j));
+                    j++;
                 }
                 postfix.add(operand.toString());
-                j = k-1;
-                i = k;
+                j--;
             }
             j++;
         }
@@ -83,5 +85,15 @@ public class Calculator {
             case '^':  return (int)Math.pow(x, y);
             default: throw new IllegalArgumentException("Illegal operator!");
         }
+    }
+ 
+    public static void main(String[] args) {
+        String infix = "2+1 0/&(2*$3-1)+,,(3..-2)*2@@^2^2";
+        Calculator cal = new Calculator();
+        List<String> postfix = cal.infix2postfix(infix);
+        for (String token : postfix)  System.out.print(token + " ");
+        System.out.println();
+        int result = cal.evaluate(postfix);
+        System.out.println("result = " + result);
     }
 }
