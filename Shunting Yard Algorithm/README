@@ -1,0 +1,5 @@
+# [Shunting Yard Algorithm] (https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
+
+The shunting yard algorithm is a method to parse a mathematical expression in infix notation into a postfix notation, known as
+Reverse Polish Notation, or an Abstract Syntax Tree.
+
