@@ -17,24 +17,23 @@ public class Calculator {
         while (j < infix.length()) {
             char token = infix.charAt(j);
             if (isOperator(token)) {
-                while (!ops.isEmpty() && (precedence(token) < precedence(ops.peek() || 
-                        precedence(token) == precedence(ops.peek() && associtivity(token) == LEFT))
+                while (!ops.isEmpty() && (precedence(token) < precedence(ops.peek()) || 
+                            precedence(token) == precedence(ops.peek()) && associativity(token) == LEFT)
                      postfix.add(String.valueOf(ops.pop()));
                 ops.push(token);
             }
             else if (token == '(')  ops.push(token);
             else if (token == ')') {
                 while (!ops.isEmpty() && ops.peek() != '(')  postfix.add(String.valueOf(ops.pop()));
-                if (ops.isEmpty()) throw new IllegalArgumentException("The infix expression is not valid!");
+                if (ops.isEmpty()) throw new IllegalArgumentException("Invalid infix expression!");
                 ops.pop();
             }
             else if (Character.isDigit(token)) {
                 StringBuilder operand = new StringBuilder();
                 int k = j+1;
-                char nextToken = infix.charAt(k);
                 while (k < infix.length() && !isOperator(infix.charAt(k)) && infix.charAt(k) != '(' 
                             && infix.charAt(k) != ')') {
-                    if (Character.isDigit(infix.charAt(k)))  operand.append(nextToken);
+                    if (Character.isDigit(infix.charAt(k)))  operand.append(infix.charAt(k));
                     k++;
                 }
                 postfix.add(operand.toString());
@@ -65,13 +64,12 @@ public class Calculator {
     
     public int evaluate(List<String> postfix) {
         if (postfix == null || postfix.isEmpty())  return 0;
+     
         Stack<Integer> operand = new Stack<>();
         while (!postfix.isEmpty()) {
-            String s = postfix.pop();
-            if (Character.isDigit(s.charAt(0)))  operand.push(Integer.parseInt(s));
-            else {
-                operand.push(calulate(operand.pop(), operand.pop(), s.charAt(0)));
-            }
+            String token = postfix.remove(0);
+            if (Character.isDigit(token.charAt(0)))  operand.push(Integer.parseInt(token));
+            else operand.push(calculate(operand.pop(), operand.pop(), s.charAt(0)));
         }
         return operand.pop();
     }
