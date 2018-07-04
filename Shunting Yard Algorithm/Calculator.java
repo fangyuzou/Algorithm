@@ -39,6 +39,7 @@ public class Calculator {
                 }
                 postfix.add(operand.toString());
                 j = k-1;
+                i = k;
             }
             j++;
         }
