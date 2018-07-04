@@ -84,3 +84,4 @@ public class Calculator {
             default: throw new IllegalArgumentException("Illegal operator!");
         }
     }
+}
