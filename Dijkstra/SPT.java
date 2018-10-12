@@ -1,6 +1,9 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Deque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SPT {
   private int source;
@@ -25,20 +28,22 @@ public class SPT {
     }
     distTo.put(source, 0);
     
+    HashSet<Integer> sptSet = new HashSet<>();
     PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (a[1] - b[1]));
     pq.offer(new int[]{source, 0});
 
     while (!pq.isEmpty()) {
       int[] cur = pq.poll();
-      if (distTo.containsKey(cur[0])) {
+      if (sptSet.contains(cur[0])) {
         continue;
       }
-      distTo.put(cur[0], cur[1]);
+      sptSet.add(cur[0]);
       for (int[] edge : graph.get(cur[0])) {
         int w = edge[1];
         int wight = edge[2];
         if (cur[1] + weight < distTo.get(w)) {
           edgeTo.put(w, edge);
+          distTo.put(w, cur[1] + weight);
           pq.offer(new int[]{w, cur[1] + weight});
         }                   
       }
@@ -57,9 +62,9 @@ public class SPT {
     if (!hasPathTo(v)) {
       return null;
     }
-    Stack<int[]> path = new Stack<int[]>();
+    Deque<int[]> path = new LinkedList<int[]>();
     for (int[] e = edgeTo.get(v); e != null; e = edgeTo.get(e[0])) {
-      path.push(e);
+      path.addFirst(e);
     }
     return path;
   }
